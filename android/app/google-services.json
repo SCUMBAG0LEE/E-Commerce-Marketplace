@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "115936487063",
+    "project_id": "mobile-programming-6dc03",
+    "storage_bucket": "mobile-programming-6dc03.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:115936487063:android:49671b27f5063b055cabd2",
+        "android_client_info": {
+          "package_name": "nekocare.ddns.net"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDoSDJV7XxVKjMkw9VA9KkKzbOW6UmDVXA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
