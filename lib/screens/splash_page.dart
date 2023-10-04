@@ -1,6 +1,10 @@
 import 'package:bad_tech/app_properties.dart';
 import 'package:bad_tech/screens/auth/welcome_back_page.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:bad_tech/screens/main/main_page.dart';
+
+final _auth = FirebaseAuth.instance;
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -17,7 +21,7 @@ class _SplashScreenState extends State<SplashScreen>
     super.initState();
     controller = AnimationController(
         duration: Duration(milliseconds: 2500), vsync: this);
-    opacity = Tween<double>(begin: 1.0, end: 0.0).animate(controller)
+    opacity = Tween<double>(begin:  1.0, end: 0.0).animate(controller)
       ..addListener(() {
         setState(() {});
       });
@@ -27,15 +31,30 @@ class _SplashScreenState extends State<SplashScreen>
   }
 
   @override
+  Future<bool> isUserSignedIn() async {
+  try {
+    final user = await _auth.authStateChanges().first;
+    return user != null;
+  } catch (e) {
+    print(e.toString());
+    return false;
+  }
+}
+
   void dispose() {
     controller.dispose();
     super.dispose();
   }
 
-  void navigationPage() {
-    Navigator.of(context)
-        .pushReplacement(MaterialPageRoute(builder: (_) => WelcomeBackPage()));
+  void navigationPage() async {
+  bool userSignedIn = await isUserSignedIn();
+  if (userSignedIn) {
+    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) => MainPage()));
+  } else {
+    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) => WelcomeBackPage()));
   }
+}
+
 
   Widget build(BuildContext context) {
     return Container(
@@ -51,7 +70,7 @@ class _SplashScreenState extends State<SplashScreen>
                 Expanded(
                   child: Opacity(
                       opacity: opacity.value,
-                      child: new Image.asset('assets/logo.png')),
+                      child: new Image.asset('assets/logo1.png')),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -61,7 +80,7 @@ class _SplashScreenState extends State<SplashScreen>
                         children: [
                           TextSpan(text: 'Powered by '),
                           TextSpan(
-                              text: 'int2.io',
+                              text: 'Itits',
                               style: TextStyle(fontWeight: FontWeight.bold))
                         ]),
                   ),
