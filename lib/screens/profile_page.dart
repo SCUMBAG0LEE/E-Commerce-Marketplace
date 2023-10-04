@@ -5,8 +5,43 @@ import 'package:bad_tech/screens/settings/settings_page.dart';
 import 'package:bad_tech/screens/tracking_page.dart';
 import 'package:bad_tech/screens/wallet/wallet_page.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
-class ProfilePage extends StatelessWidget {
+late User loggedinUser;
+String displayName = "Ligma Sukmadi";
+
+class ProfilePage extends StatefulWidget {
+  @override
+  _ProfilePageState createState() => _ProfilePageState();
+}
+
+class _ProfilePageState extends State<ProfilePage> {
+
+  final _auth = FirebaseAuth.instance;
+
+  void initState() {
+    super.initState();
+    getCurrentUser();
+  }
+
+  void getCurrentUser() async {
+    try {
+      final user = await _auth.currentUser;
+      if (user != null) {
+        loggedinUser = user;
+        if (user.displayName != null && user.displayName!.isNotEmpty){
+          displayName = user.displayName!;
+        } else {
+          setState(() {
+            displayName = user.email!;
+          });
+        }
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,12 +56,12 @@ class ProfilePage extends StatelessWidget {
               children: <Widget>[
                 CircleAvatar(
                   maxRadius: 48,
-                  backgroundImage: AssetImage('assets/background.jpg'),
+                  backgroundImage: AssetImage('assets/face.jpg'),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
-                    'Rose Helbert',
+                    '$displayName',
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
                 ),
@@ -61,7 +96,7 @@ class ProfilePage extends StatelessWidget {
                                       builder: (_) => WalletPage())),
                             ),
                             Text(
-                              'Wallet',
+                              'E-Wallet',
                               style: TextStyle(fontWeight: FontWeight.bold),
                             )
                           ],
@@ -75,7 +110,7 @@ class ProfilePage extends StatelessWidget {
                                 MaterialPageRoute(builder: (_) => TrackingPage())),
                             ),
                             Text(
-                              'Shipped',
+                              'Shippment',
                               style: TextStyle(fontWeight: FontWeight.bold),
                             )
                           ],
