@@ -1,8 +1,9 @@
 
 import 'package:bad_tech/app_properties.dart';
+import 'package:bad_tech/screens/auth/welcome_back_page.dart';
 import 'package:flutter/material.dart';
-
-import 'forgot_password_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:bad_tech/screens/main/main_page.dart';
 
 class RegisterPage extends StatefulWidget {
   @override
@@ -10,21 +11,20 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
-  TextEditingController email =
-      TextEditingController(text: 'example@email.com');
+  final _auth = FirebaseAuth.instance;
 
-  TextEditingController password = TextEditingController(text: '12345678');
-
-  TextEditingController cmfPassword = TextEditingController(text: '12345678');
+  late String email;
+  late String password;
+  late String cmfPassword;
 
 
   @override
   Widget build(BuildContext context) {
     Widget title = Text(
-      'Glad To Meet You',
+      'Nice To Meet You',
       style: TextStyle(
           color: Colors.white,
-          fontSize: 34.0,
+          fontSize: 32.0,
           fontWeight: FontWeight.bold,
           shadows: [
             BoxShadow(
@@ -49,9 +49,53 @@ class _RegisterPageState extends State<RegisterPage> {
       left: MediaQuery.of(context).size.width / 4,
       bottom: 40,
       child: InkWell(
-        onTap: () {
-          Navigator.of(context)
-              .push(MaterialPageRoute(builder: (_) => ForgotPasswordPage()));
+        onTap: () async {
+          if (password.length < 6) { showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text("Error"),
+        content: Text("Password must be at least 6 characters long."),
+        actions: <Widget>[
+          TextButton(
+            child: Text("OK"),
+            onPressed: () {
+              Navigator.of(context).pop(); // Close the dialog
+              // You can add additional logic here if needed
+            },
+          ),
+        ],
+      );
+    },
+  ); } else if (password == cmfPassword) {
+          try {
+                    final newUser = await _auth.createUserWithEmailAndPassword(
+                        email: email, password: password);
+                    if (newUser != null) {
+                      Navigator.of(context)
+              .push(MaterialPageRoute(builder: (_) => WelcomeBackPage()));
+                    }
+                  } catch (e) {
+                    print(e);
+                  }
+        } else { showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text("Error"),
+        content: Text("Passwords do not match."),
+        actions: <Widget>[
+          TextButton(
+            child: Text("OK"),
+            onPressed: () {
+              Navigator.of(context).pop(); // Close the dialog
+              // You can add additional logic here if needed
+            },
+          ),
+        ],
+      );
+    },
+  ); }
         },
         child: Container(
           width: MediaQuery.of(context).size.width / 2,
@@ -96,24 +140,27 @@ class _RegisterPageState extends State<RegisterPage> {
                 Padding(
                   padding: const EdgeInsets.only(top: 8.0),
                   child: TextField(
-                    controller: email,
+                    onChanged: (value) {email = value;},
                     style: TextStyle(fontSize: 16.0),
+                    decoration: InputDecoration(hintText: 'Email'),
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 8.0),
                   child: TextField(
-                    controller: password,
+                    onChanged: (value) {password = value;},
                     style: TextStyle(fontSize: 16.0),
                     obscureText: true,
+                    decoration: InputDecoration(hintText: 'Password'),
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 8.0),
                   child: TextField(
-                    controller: cmfPassword,
+                    onChanged: (value) {cmfPassword = value;},
                     style: TextStyle(fontSize: 16.0),
                     obscureText: true,
+                    decoration: InputDecoration(hintText: 'Confirm Password'),
                   ),
                 ),
               ],
@@ -124,29 +171,37 @@ class _RegisterPageState extends State<RegisterPage> {
       ),
     );
 
-    Widget socialRegister = Column(
-      children: <Widget>[
-        Text(
-          'You can sign in with',
-          style: TextStyle(
-              fontSize: 12.0, fontStyle: FontStyle.italic, color: Colors.white),
+    Widget socialRegister = Container(
+  width: double.infinity, // Constrain the width of the container
+  child: Column(
+    crossAxisAlignment: CrossAxisAlignment.center, // Align the column's content to the center horizontally
+    children: <Widget>[
+      Text(
+        'Explore as a guest.',
+        style: TextStyle(
+          fontSize: 12.0,
+          fontStyle: FontStyle.italic,
+          color: Colors.white,
         ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            IconButton(
-              icon: Icon(Icons.find_replace),
-              onPressed: () {},
-              color: Colors.white,
-            ),
-            IconButton(
-                icon: Icon(Icons.find_replace),
-                onPressed: () {},
-                color: Colors.white),
-          ],
-        )
-      ],
-    );
+      ),
+      GestureDetector(
+        onTap: () {
+          Navigator.of(context)
+              .push(MaterialPageRoute(builder: (_) => MainPage()));
+        },
+        child: Text(
+          'Guest Sign-in',
+          style: TextStyle(
+            fontSize: 12.0,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
+        ),
+      ),
+    ],
+  ),
+);
+
 
     return Scaffold(
 
