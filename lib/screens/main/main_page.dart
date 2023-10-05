@@ -13,41 +13,47 @@ import 'components/product_list.dart';
 import 'components/tab_view.dart';
 
 class MainPage extends StatefulWidget {
+  
   @override
   _MainPageState createState() => _MainPageState();
 }
 
-List<String> timelines = ['Weekly featured', 'Best of June', 'Best of 2018'];
+List<String> timelines = ['Weekly featured', 'Best of August', 'Best of 2023'];
 String selectedTimeline = 'Weekly featured';
 
 List<Product> products = [
   Product(
-      'assets/headphones_2.png',
-      'Skullcandy headset L325',
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor ut labore et dolore magna aliqua. Nec nam aliquam sem et tortor consequat id porta nibh. Orci porta non pulvinar neque laoreet suspendisse. Id nibh tortor id aliquet. Dui sapien eget mi proin. Viverra vitae congue eu consequat ac felis donec. Etiam dignissim diam quis enim lobortis scelerisque fermentum dui faucibus. Vulputate mi sit amet mauris commodo quis imperdiet. Vel fringilla est ullamcorper eget nulla facilisi etiam dignissim. Sit amet cursus sit amet dictum sit amet justo. Mattis pellentesque id nibh tortor. Sed blandit libero volutpat sed cras ornare arcu dui. Fermentum et sollicitudin ac orci phasellus. Ipsum nunc aliquet bibendum enim facilisis gravida. Viverra suspendisse potenti nullam ac tortor. Dapibus ultrices in iaculis nunc sed. Nisi porta lorem mollis aliquam ut porttitor leo a. Phasellus egestas tellus rutrum tellus pellentesque. Et malesuada fames ac turpis egestas maecenas pharetra convallis. Commodo ullamcorper a lacus vestibulum sed arcu non odio. Urna id volutpat lacus laoreet non curabitur gravida arcu ac. Eros in cursus turpis massa. Eget mauris pharetra et ultrices neque.',
-      102.99),
+      'assets/laptop_1.png',
+      'laptop',
+      'Zenbook Pro 14 Duo OLED',
+      'Using Asus ScreenXpert software, Zenbook Pro Duo users essentially have a small, crisp secondary OLED monitor on their keyboard deck. This second screen can also be turned into a giant touchpad (which is helpful since the actual touchpad the device comes with is pretty tiny. The device also comes with high-performance chips from Intel and Nvidia, and a roomy 16:10 primary screen. While the keyboard-in-the-front layout won’t be for everyone, this innovative device is the best choice for shoppers who want multiple screens in one.',
+      1800),
   Product(
-      'assets/headphones_3.png',
-      'Skullcandy headset X25',
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor ut labore et dolore magna aliqua. Nec nam aliquam sem et tortor consequat id porta nibh. Orci porta non pulvinar neque laoreet suspendisse. Id nibh tortor id aliquet. Dui sapien eget mi proin. Viverra vitae congue eu consequat ac felis donec. Etiam dignissim diam quis enim lobortis scelerisque fermentum dui faucibus. Vulputate mi sit amet mauris commodo quis imperdiet. Vel fringilla est ullamcorper eget nulla facilisi etiam dignissim. Sit amet cursus sit amet dictum sit amet justo. Mattis pellentesque id nibh tortor. Sed blandit libero volutpat sed cras ornare arcu dui. Fermentum et sollicitudin ac orci phasellus. Ipsum nunc aliquet bibendum enim facilisis gravida. Viverra suspendisse potenti nullam ac tortor. Dapibus ultrices in iaculis nunc sed. Nisi porta lorem mollis aliquam ut porttitor leo a. Phasellus egestas tellus rutrum tellus pellentesque. Et malesuada fames ac turpis egestas maecenas pharetra convallis. Commodo ullamcorper a lacus vestibulum sed arcu non odio. Urna id volutpat lacus laoreet non curabitur gravida arcu ac. Eros in cursus turpis massa. Eget mauris pharetra et ultrices neque.',
-      55.99),
+      'assets/phone_1.png',
+      'smartphone',
+      'Poco F5 5G',
+      'Despite weighing just over 180 grams, it sports a massive 6.67-inch AMOLED display and measures 7.98 mm at its thickest. All the physical buttons are mounted on the right bezel, with the power button doubling up as a fingerprint sensor.',
+      359),
   Product(
-      'assets/headphones.png',
-      'Blackzy PRO hedphones M003',
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor ut labore et dolore magna aliqua. Nec nam aliquam sem et tortor consequat id porta nibh. Orci porta non pulvinar neque laoreet suspendisse. Id nibh tortor id aliquet. Dui sapien eget mi proin. Viverra vitae congue eu consequat ac felis donec. Etiam dignissim diam quis enim lobortis scelerisque fermentum dui faucibus. Vulputate mi sit amet mauris commodo quis imperdiet. Vel fringilla est ullamcorper eget nulla facilisi etiam dignissim. Sit amet cursus sit amet dictum sit amet justo. Mattis pellentesque id nibh tortor. Sed blandit libero volutpat sed cras ornare arcu dui. Fermentum et sollicitudin ac orci phasellus. Ipsum nunc aliquet bibendum enim facilisis gravida. Viverra suspendisse potenti nullam ac tortor. Dapibus ultrices in iaculis nunc sed. Nisi porta lorem mollis aliquam ut porttitor leo a. Phasellus egestas tellus rutrum tellus pellentesque. Et malesuada fames ac turpis egestas maecenas pharetra convallis. Commodo ullamcorper a lacus vestibulum sed arcu non odio. Urna id volutpat lacus laoreet non curabitur gravida arcu ac. Eros in cursus turpis massa. Eget mauris pharetra et ultrices neque.',
-      152.99),
+      'assets/watch_1.png',
+      'accesory',
+      'Apple Watch Series 9',
+      'The Apple Watch Series 9 is the most well-rounded smartwatch we have tested. It has first-rate communication, fitness, health and safety features, making it the best smartwatch for most people.',
+      399),
 ];
 
 class _MainPageState extends State<MainPage>
     with TickerProviderStateMixin<MainPage> {
   late TabController tabController;
   late TabController bottomTabController;
+  List<Product> selectedProducts = [];
 
   @override
   void initState() {
     super.initState();
     tabController = TabController(length: 5, vsync: this);
     bottomTabController = TabController(length: 4, vsync: this);
+    List<Product> selectedProducts = [];
   }
 
   @override
@@ -80,21 +86,24 @@ class _MainPageState extends State<MainPage>
                   setState(() {
                     selectedTimeline = timelines[0];
                     products = [
-                      Product(
-                          'assets/headphones_2.png',
-                          'Skullcandy headset L325',
-                          'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor ut labore et dolore magna aliqua. Nec nam aliquam sem et tortor consequat id porta nibh. Orci porta non pulvinar neque laoreet suspendisse. Id nibh tortor id aliquet. Dui sapien eget mi proin. Viverra vitae congue eu consequat ac felis donec. Etiam dignissim diam quis enim lobortis scelerisque fermentum dui faucibus. Vulputate mi sit amet mauris commodo quis imperdiet. Vel fringilla est ullamcorper eget nulla facilisi etiam dignissim. Sit amet cursus sit amet dictum sit amet justo. Mattis pellentesque id nibh tortor. Sed blandit libero volutpat sed cras ornare arcu dui. Fermentum et sollicitudin ac orci phasellus. Ipsum nunc aliquet bibendum enim facilisis gravida. Viverra suspendisse potenti nullam ac tortor. Dapibus ultrices in iaculis nunc sed. Nisi porta lorem mollis aliquam ut porttitor leo a. Phasellus egestas tellus rutrum tellus pellentesque. Et malesuada fames ac turpis egestas maecenas pharetra convallis. Commodo ullamcorper a lacus vestibulum sed arcu non odio. Urna id volutpat lacus laoreet non curabitur gravida arcu ac. Eros in cursus turpis massa. Eget mauris pharetra et ultrices neque.',
-                          102.99),
-                      Product(
-                          'assets/headphones_3.png',
-                          'Skullcandy headset X25',
-                          'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor ut labore et dolore magna aliqua. Nec nam aliquam sem et tortor consequat id porta nibh. Orci porta non pulvinar neque laoreet suspendisse. Id nibh tortor id aliquet. Dui sapien eget mi proin. Viverra vitae congue eu consequat ac felis donec. Etiam dignissim diam quis enim lobortis scelerisque fermentum dui faucibus. Vulputate mi sit amet mauris commodo quis imperdiet. Vel fringilla est ullamcorper eget nulla facilisi etiam dignissim. Sit amet cursus sit amet dictum sit amet justo. Mattis pellentesque id nibh tortor. Sed blandit libero volutpat sed cras ornare arcu dui. Fermentum et sollicitudin ac orci phasellus. Ipsum nunc aliquet bibendum enim facilisis gravida. Viverra suspendisse potenti nullam ac tortor. Dapibus ultrices in iaculis nunc sed. Nisi porta lorem mollis aliquam ut porttitor leo a. Phasellus egestas tellus rutrum tellus pellentesque. Et malesuada fames ac turpis egestas maecenas pharetra convallis. Commodo ullamcorper a lacus vestibulum sed arcu non odio. Urna id volutpat lacus laoreet non curabitur gravida arcu ac. Eros in cursus turpis massa. Eget mauris pharetra et ultrices neque.',
-                          55.99),
-                      Product(
-                          'assets/headphones.png',
-                          'Blackzy PRO hedphones M003',
-                          'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor ut labore et dolore magna aliqua. Nec nam aliquam sem et tortor consequat id porta nibh. Orci porta non pulvinar neque laoreet suspendisse. Id nibh tortor id aliquet. Dui sapien eget mi proin. Viverra vitae congue eu consequat ac felis donec. Etiam dignissim diam quis enim lobortis scelerisque fermentum dui faucibus. Vulputate mi sit amet mauris commodo quis imperdiet. Vel fringilla est ullamcorper eget nulla facilisi etiam dignissim. Sit amet cursus sit amet dictum sit amet justo. Mattis pellentesque id nibh tortor. Sed blandit libero volutpat sed cras ornare arcu dui. Fermentum et sollicitudin ac orci phasellus. Ipsum nunc aliquet bibendum enim facilisis gravida. Viverra suspendisse potenti nullam ac tortor. Dapibus ultrices in iaculis nunc sed. Nisi porta lorem mollis aliquam ut porttitor leo a. Phasellus egestas tellus rutrum tellus pellentesque. Et malesuada fames ac turpis egestas maecenas pharetra convallis. Commodo ullamcorper a lacus vestibulum sed arcu non odio. Urna id volutpat lacus laoreet non curabitur gravida arcu ac. Eros in cursus turpis massa. Eget mauris pharetra et ultrices neque.',
-                          152.99),
+                     Product(
+                        'assets/laptop_1.png',
+                        'laptop',
+                        'Zenbook Pro 14 Duo OLED',
+                        'Using Asuss ScreenXpert software, Zenbook Pro Duo users essentially have a small, crisp secondary OLED monitor on their keyboard deck. This second screen can also be turned into a giant touchpad (which is helpful since the actual touchpad the device comes with is pretty tiny. The device also comes with high-performance chips from Intel and Nvidia, and a roomy 16:10 primary screen. While the keyboard-in-the-front layout won’t be for everyone, this innovative device is the best choice for shoppers who want multiple screens in one.',
+                        1800),
+                    Product(
+                        'assets/phone_1.png',
+                        'smartphone',
+                        'Poco F5 5G',
+                        'Despite weighing just over 180 grams, it sports a massive 6.67-inch AMOLED display and measures 7.98 mm at its thickest. All the physical buttons are mounted on the right bezel, with the power button doubling up as a fingerprint sensor.',
+                        359),
+                    Product(
+                        'assets/watch_1.png',
+                        'accessory',
+                        'Apple Watch Series 9',
+                        'The Apple Watch Series 9 is the most well-rounded smartwatch we have tested. It has first-rate communication, fitness, health and safety features, making it the best smartwatch for most people.',
+                        399),
                     ];
                   });
                 },
@@ -113,20 +122,23 @@ class _MainPageState extends State<MainPage>
                     selectedTimeline = timelines[1];
                     products = [
                       Product(
-                          'assets/bag_5.png',
-                          'Skullcandy headset L325',
-                          'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor ut labore et dolore magna aliqua. Nec nam aliquam sem et tortor consequat id porta nibh. Orci porta non pulvinar neque laoreet suspendisse. Id nibh tortor id aliquet. Dui sapien eget mi proin. Viverra vitae congue eu consequat ac felis donec. Etiam dignissim diam quis enim lobortis scelerisque fermentum dui faucibus. Vulputate mi sit amet mauris commodo quis imperdiet. Vel fringilla est ullamcorper eget nulla facilisi etiam dignissim. Sit amet cursus sit amet dictum sit amet justo. Mattis pellentesque id nibh tortor. Sed blandit libero volutpat sed cras ornare arcu dui. Fermentum et sollicitudin ac orci phasellus. Ipsum nunc aliquet bibendum enim facilisis gravida. Viverra suspendisse potenti nullam ac tortor. Dapibus ultrices in iaculis nunc sed. Nisi porta lorem mollis aliquam ut porttitor leo a. Phasellus egestas tellus rutrum tellus pellentesque. Et malesuada fames ac turpis egestas maecenas pharetra convallis. Commodo ullamcorper a lacus vestibulum sed arcu non odio. Urna id volutpat lacus laoreet non curabitur gravida arcu ac. Eros in cursus turpis massa. Eget mauris pharetra et ultrices neque.',
-                          102.99),
+                          'assets/accessory_1.png',
+                          'accessory',
+                          'Bose QuietComfort Ultra Earbuds',
+                          'The Bose QuietComfort Ultra Earbuds are the company new flagship noise-canceling wireless earbuds (replacing the 2022-released QC Earbuds II). They boast improved mics for call clarity and support for spatial audio. ',
+                          299),
                       Product(
-                          'assets/bag_6.png',
-                          'Skullcandy headset X25',
-                          'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor ut labore et dolore magna aliqua. Nec nam aliquam sem et tortor consequat id porta nibh. Orci porta non pulvinar neque laoreet suspendisse. Id nibh tortor id aliquet. Dui sapien eget mi proin. Viverra vitae congue eu consequat ac felis donec. Etiam dignissim diam quis enim lobortis scelerisque fermentum dui faucibus. Vulputate mi sit amet mauris commodo quis imperdiet. Vel fringilla est ullamcorper eget nulla facilisi etiam dignissim. Sit amet cursus sit amet dictum sit amet justo. Mattis pellentesque id nibh tortor. Sed blandit libero volutpat sed cras ornare arcu dui. Fermentum et sollicitudin ac orci phasellus. Ipsum nunc aliquet bibendum enim facilisis gravida. Viverra suspendisse potenti nullam ac tortor. Dapibus ultrices in iaculis nunc sed. Nisi porta lorem mollis aliquam ut porttitor leo a. Phasellus egestas tellus rutrum tellus pellentesque. Et malesuada fames ac turpis egestas maecenas pharetra convallis. Commodo ullamcorper a lacus vestibulum sed arcu non odio. Urna id volutpat lacus laoreet non curabitur gravida arcu ac. Eros in cursus turpis massa. Eget mauris pharetra et ultrices neque.',
-                          55.99),
+                          'assets/accessory_2.png',
+                          'accessory',
+                          'Amazon Echo Frames (3rd-Gen)',
+                          'Like their predecessors, Amazon newest Echo Frames work as a combo of eyeglasses (or sunglasses) and headphones — there are speakers built into each arm. The third-generation Echo Frames have improved sound, faster Alexa and come in a number of stylish frames.',
+                          270),
                       Product(
-                          'assets/bag_3.png',
-                          'Blackzy PRO hedphones M003',
-                          'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor ut labore et dolore magna aliqua. Nec nam aliquam sem et tortor consequat id porta nibh. Orci porta non pulvinar neque laoreet suspendisse. Id nibh tortor id aliquet. Dui sapien eget mi proin. Viverra vitae congue eu consequat ac felis donec. Etiam dignissim diam quis enim lobortis scelerisque fermentum dui faucibus. Vulputate mi sit amet mauris commodo quis imperdiet. Vel fringilla est ullamcorper eget nulla facilisi etiam dignissim. Sit amet cursus sit amet dictum sit amet justo. Mattis pellentesque id nibh tortor. Sed blandit libero volutpat sed cras ornare arcu dui. Fermentum et sollicitudin ac orci phasellus. Ipsum nunc aliquet bibendum enim facilisis gravida. Viverra suspendisse potenti nullam ac tortor. Dapibus ultrices in iaculis nunc sed. Nisi porta lorem mollis aliquam ut porttitor leo a. Phasellus egestas tellus rutrum tellus pellentesque. Et malesuada fames ac turpis egestas maecenas pharetra convallis. Commodo ullamcorper a lacus vestibulum sed arcu non odio. Urna id volutpat lacus laoreet non curabitur gravida arcu ac. Eros in cursus turpis massa. Eget mauris pharetra et ultrices neque.',
-                          152.99),
+                          'assets/accessory_3.png',
+                          'accessory',
+                          'Sony WH-CH520',
+                          'The Sony WH-CH520 are the new super cheap, on-ear wireless headphones from Sony. These headphones are on-ear rather than in-ear or over-ear, which means you wont get active noise cancellation or Hi-Res Audio support but you wouldnt expect to at this price, but they deliver quality, well-balanced sound (as well as a few useful tricks), making them fantastic value and our favorite pair of cheap on-ears.',
+                          65),
                     ];
                   });
                 },
@@ -144,20 +156,23 @@ class _MainPageState extends State<MainPage>
                     selectedTimeline = timelines[2];
                     products = [
                       Product(
-                          'assets/headphone_13.png',
-                          'Skullcandy headset L325',
-                          'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor ut labore et dolore magna aliqua. Nec nam aliquam sem et tortor consequat id porta nibh. Orci porta non pulvinar neque laoreet suspendisse. Id nibh tortor id aliquet. Dui sapien eget mi proin. Viverra vitae congue eu consequat ac felis donec. Etiam dignissim diam quis enim lobortis scelerisque fermentum dui faucibus. Vulputate mi sit amet mauris commodo quis imperdiet. Vel fringilla est ullamcorper eget nulla facilisi etiam dignissim. Sit amet cursus sit amet dictum sit amet justo. Mattis pellentesque id nibh tortor. Sed blandit libero volutpat sed cras ornare arcu dui. Fermentum et sollicitudin ac orci phasellus. Ipsum nunc aliquet bibendum enim facilisis gravida. Viverra suspendisse potenti nullam ac tortor. Dapibus ultrices in iaculis nunc sed. Nisi porta lorem mollis aliquam ut porttitor leo a. Phasellus egestas tellus rutrum tellus pellentesque. Et malesuada fames ac turpis egestas maecenas pharetra convallis. Commodo ullamcorper a lacus vestibulum sed arcu non odio. Urna id volutpat lacus laoreet non curabitur gravida arcu ac. Eros in cursus turpis massa. Eget mauris pharetra et ultrices neque.',
-                          102.99),
+                          'assets/smartphone_1.png',
+                          'smartphone',
+                          'Samsung Galaxy A14 5G',
+                          "So what is new? For starters, the design is more in line with the rest of Samsung's phones and uses the same 'camera island' style we've seen on the Galaxy S23 series. The entire phone feels a bit sturdier in hand, and the engrained pattern on the back is pretty eye-catching in this price range. Even better, the display received a huge upgrade to 1080p while keeping its 90Hz refresh rate. It's still an LCD panel — you'll need to grab the A54 for AMOLED — but for \$200, it's hard to argue with the screen quality here.",
+                          195.0),
                       Product(
-                          'assets/jeans_4.png',
-                          'Skullcandy headset X25',
-                          'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor ut labore et dolore magna aliqua. Nec nam aliquam sem et tortor consequat id porta nibh. Orci porta non pulvinar neque laoreet suspendisse. Id nibh tortor id aliquet. Dui sapien eget mi proin. Viverra vitae congue eu consequat ac felis donec. Etiam dignissim diam quis enim lobortis scelerisque fermentum dui faucibus. Vulputate mi sit amet mauris commodo quis imperdiet. Vel fringilla est ullamcorper eget nulla facilisi etiam dignissim. Sit amet cursus sit amet dictum sit amet justo. Mattis pellentesque id nibh tortor. Sed blandit libero volutpat sed cras ornare arcu dui. Fermentum et sollicitudin ac orci phasellus. Ipsum nunc aliquet bibendum enim facilisis gravida. Viverra suspendisse potenti nullam ac tortor. Dapibus ultrices in iaculis nunc sed. Nisi porta lorem mollis aliquam ut porttitor leo a. Phasellus egestas tellus rutrum tellus pellentesque. Et malesuada fames ac turpis egestas maecenas pharetra convallis. Commodo ullamcorper a lacus vestibulum sed arcu non odio. Urna id volutpat lacus laoreet non curabitur gravida arcu ac. Eros in cursus turpis massa. Eget mauris pharetra et ultrices neque.',
-                          55.99),
+                          'assets/laptop_2.png',
+                          'laptop',
+                          'Lenovo IdeaPad Windows Duet 5i',
+                          'Lenovos IdeaPad Windows Duet 5i is an affordable, well-rounded alternative to premium 2-in-1 laptops, featuring surprising performance for the price. With a sturdy build, an intuitive detachable design, a sharp 2.5K display, and a keyboard included, this detachable is perfect for grab-and-go use, whether its for productivity or entertainment. This all amounts to an impressive value for its price.',
+                          529.99),
                       Product(
-                          'assets/ring_7.png',
-                          'Blackzy PRO hedphones M003',
-                          'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor ut labore et dolore magna aliqua. Nec nam aliquam sem et tortor consequat id porta nibh. Orci porta non pulvinar neque laoreet suspendisse. Id nibh tortor id aliquet. Dui sapien eget mi proin. Viverra vitae congue eu consequat ac felis donec. Etiam dignissim diam quis enim lobortis scelerisque fermentum dui faucibus. Vulputate mi sit amet mauris commodo quis imperdiet. Vel fringilla est ullamcorper eget nulla facilisi etiam dignissim. Sit amet cursus sit amet dictum sit amet justo. Mattis pellentesque id nibh tortor. Sed blandit libero volutpat sed cras ornare arcu dui. Fermentum et sollicitudin ac orci phasellus. Ipsum nunc aliquet bibendum enim facilisis gravida. Viverra suspendisse potenti nullam ac tortor. Dapibus ultrices in iaculis nunc sed. Nisi porta lorem mollis aliquam ut porttitor leo a. Phasellus egestas tellus rutrum tellus pellentesque. Et malesuada fames ac turpis egestas maecenas pharetra convallis. Commodo ullamcorper a lacus vestibulum sed arcu non odio. Urna id volutpat lacus laoreet non curabitur gravida arcu ac. Eros in cursus turpis massa. Eget mauris pharetra et ultrices neque.',
-                          152.99),
+                          'assets/hardware_1.png',
+                          'hardware',
+                          'NVIDIA GeForce RTX 4060',
+                          'The RTX 4060 doesn’t set the world alight when stacked up against its NVIDIA counterparts. Healthy upgrades to both base and boost clocks are a nice addition but reductions to both VRAM and CUDA cores will likely cancel out these upgrades.',
+                          300.0),
                     ];
                   });
                 },
@@ -170,14 +185,15 @@ class _MainPageState extends State<MainPage>
             ),
           ],
         ));
+        
 
     Widget tabBar = TabBar(
       tabs: [
         Tab(text: 'Trending'),
-        Tab(text: 'Sports'),
-        Tab(text: 'Headsets'),
-        Tab(text: 'Wireless'),
-        Tab(text: 'Bluetooth'),
+        Tab(text: 'Laptop'),
+        Tab(text: 'Smartphone'),
+        Tab(text: 'Hardware'),
+        Tab(text: 'Accessory'),
       ],
       labelStyle: TextStyle(fontSize: 16.0),
       unselectedLabelStyle: TextStyle(
@@ -225,7 +241,7 @@ class _MainPageState extends State<MainPage>
               ),
             ),
             CategoryListPage(),
-            CheckOutPage(),
+            CheckOutPage(selectedProducts: selectedProducts),
             ProfilePage()
           ],
         ),
