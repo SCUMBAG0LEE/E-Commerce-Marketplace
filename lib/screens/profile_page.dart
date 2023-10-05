@@ -4,6 +4,8 @@ import 'package:bad_tech/screens/payment/payment_page.dart';
 import 'package:bad_tech/screens/settings/settings_page.dart';
 import 'package:bad_tech/screens/tracking_page.dart';
 import 'package:bad_tech/screens/wallet/wallet_page.dart';
+import 'package:bad_tech/screens/support_page.dart';
+import 'package:bad_tech/screens/help_and_support_page.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -107,7 +109,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             IconButton(
                               icon: Image.asset('assets/icons/truck.png'),
                               onPressed: () => Navigator.of(context).push(
-                                MaterialPageRoute(builder: (_) => TrackingPage())),
+                                MaterialPageRoute(builder: (_) => TrackingPage(selectedProducts: [],))),
                             ),
                             Text(
                               'Shippment',
@@ -134,10 +136,12 @@ class _ProfilePageState extends State<ProfilePage> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
                             IconButton(
-                              icon: Image.asset('assets/icons/contact_us.png'), onPressed: () {},
+                              icon: Image.asset('assets/icons/contact_us.png'),
+                              onPressed:()=> Navigator.of(context)
+              .push(MaterialPageRoute(builder: (_) => SupportPage()))
                             ),
                             Text(
-                              'Support',
+                             'Support',
                               style: TextStyle(fontWeight: FontWeight.bold),
                             )
                           ],
@@ -159,11 +163,10 @@ class _ProfilePageState extends State<ProfilePage> {
                   title: Text('Help & Support'),
                   subtitle: Text('Help center and legal support'),
                   leading: Image.asset('assets/icons/support.png'),
-                  trailing: Icon(
-                    Icons.chevron_right,
-                    color: yellow,
-                  ),
-                ),
+                  trailing: Icon(Icons.chevron_right,color: yellow,),
+                  onTap: () => Navigator.of(context)
+              .push(MaterialPageRoute(builder: (_) => HelpAndSupportPage()))
+                    ),
                 Divider(),
                 ListTile(
                   title: Text('FAQ'),
