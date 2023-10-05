@@ -1,35 +1,38 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+import 'package:bad_tech/models/product.dart';
+import 'package:bad_tech/screens/main/main_page.dart';
 
 class TrackingPage extends StatefulWidget {
+  final List<Product> selectedProducts; // List of selected products
+  TrackingPage({required this.selectedProducts});
+
   @override
   _TrackingPageState createState() => _TrackingPageState();
 }
 
 class _TrackingPageState extends State<TrackingPage> {
-  final List<Location> locations = [
-    Location('Jalan A', DateTime.now().subtract(Duration(days: 2)),
-        showHour: false, isHere: false, passed: true),
-    Location('Jalan B', DateTime.now().subtract(Duration(days: 1)),
-        showHour: false, isHere: false, passed: true),
-    Location(
-      'Jalan C',
-      DateTime.now(),
-      showHour: false,
-      isHere: true,
-    ),
-    Location(
-      'Tujuan',
-      DateTime.now().add(Duration(days: 1)),
-      showHour: true,
-      isHere: false,
-    ),
-  ];
+  String selectedProduct = '';
 
-  String selectedProduct = 'Boat Headphones Bass boost 100v';
+  @override
+  void initState() {
+    super.initState();
+    // Initialize selectedProduct with the first product from the list
+    selectedProduct = widget.selectedProducts.isNotEmpty
+        ? widget.selectedProducts.first.name
+        : '';
+  }
 
   @override
   Widget build(BuildContext context) {
+    // Create a Set to store unique product names
+    final Set<String> uniqueProductNames = Set<String>();
+
+    // Filter out duplicates based on product name
+    final List<Product> uniqueProducts = widget.selectedProducts.where((product) {
+      final isUnique = uniqueProductNames.add(product.name);
+      return isUnique;
+    }).toList();
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -43,14 +46,7 @@ class _TrackingPageState extends State<TrackingPage> {
             fontWeight: FontWeight.bold,
           ),
         ),
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.close),
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-          ),
-        ],
+        actions: <Widget>[],
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -73,30 +69,23 @@ class _TrackingPageState extends State<TrackingPage> {
                 ],
               ),
               child: DropdownButtonHideUnderline(
-                child: DropdownButton(
-                  items: <String>[
-                    'Boat Headphones Bass boost 100v',
-                    'Boat Headphones Bass boost 200v',
-                    'Boat Headphones Bass boost 300v',
-                    'Boat Headphones Bass boost 400v',
-                    'Boat Headphones Bass boost 500v',
-                    'Boat Headphones Bass double boosting 600v'
-                  ].map((val) {
-                    return DropdownMenuItem<String>(
-                      value: val,
-                      child: Text(
-                        val,
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                          fontSize: 16,
-                        ),
-                      ),
-                    );
-                  }).toList(),
+                child: DropdownButton<String>(
+                  items: uniqueProducts
+                      .map((product) => DropdownMenuItem<String>(
+                            value: product.name, // Use a unique identifier as the value
+                            child: Text(
+                              product.name,
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                fontSize: 16,
+                              ),
+                            ),
+                          ))
+                      .toList(),
                   onChanged: (newValue) {
                     setState(() {
-                      selectedProduct = newValue as String;
+                      selectedProduct = newValue!;
                     });
                   },
                   value: selectedProduct,
@@ -115,61 +104,55 @@ class _TrackingPageState extends State<TrackingPage> {
             child: Container(
               color: Colors.grey[100],
               padding: EdgeInsets.all(16.0),
-              child: Card(
-                elevation: 4.0,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8.0),
+              child: Image.asset(
+                'assets/map.png',
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+          Container(
+            height: 60,
+            width: MediaQuery.of(context).size.width / 2,
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [Colors.orange, Colors.deepOrange],
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+              ),
+              boxShadow: [
+                BoxShadow(
+                  color: Color.fromRGBO(0, 0, 0, 0.16),
+                  offset: Offset(0, 5),
+                  blurRadius: 10.0,
                 ),
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Tracking Information',
-                        style: TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      SizedBox(height: 16),
-                      Expanded(
-                        child: ListView.builder(
-                          itemCount: locations.length,
-                          itemBuilder: (context, index) {
-                            final location = locations[index];
-                            return ListTile(
-                              leading: Container(
-                                width: 16,
-                                height: 16,
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: location.isHere
-                                      ? Colors.green
-                                      : location.passed
-                                          ? Colors.grey
-                                          : Colors.blue,
-                                ),
-                              ),
-                              title: Text(
-                                location.city,
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              subtitle: Text(
-                                location.getDate(),
-                                style: TextStyle(
-                                  fontSize: 16,
-                                ),
-                              ),
-                            );
-                          },
-                        ),
-                      ),
-                    ],
+              ],
+              borderRadius: BorderRadius.circular(9.0),
+            ),
+            child: ElevatedButton(
+              onPressed: () {
+                // Navigate to MainPage using a MaterialPageRoute
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => MainPage(),
                   ),
+                );
+              },
+              style: ButtonStyle(
+                elevation: MaterialStateProperty.all(0), // Remove button elevation
+                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(9.0),
+                  ),
+                ),
+                backgroundColor: MaterialStateProperty.all<Color>(Colors.transparent), // Make button transparent
+              ),
+              child: Text(
+                'Go to Main Page',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.w600,
                 ),
               ),
             ),
@@ -177,24 +160,5 @@ class _TrackingPageState extends State<TrackingPage> {
         ],
       ),
     );
-  }
-}
-
-class Location {
-  String city;
-  DateTime date;
-  bool showHour;
-  bool isHere;
-  bool passed;
-
-  Location(this.city, this.date,
-      {this.showHour = false, this.isHere = false, this.passed = false});
-
-  String getDate() {
-    if (showHour) {
-      return DateFormat("K:mm aaa, d MMMM y").format(date);
-    } else {
-      return DateFormat('d MMMM y').format(date);
-    }
   }
 }
