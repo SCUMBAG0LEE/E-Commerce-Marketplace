@@ -18,6 +18,9 @@ class ViewProductPage extends StatefulWidget {
   _ViewProductPageState createState() => _ViewProductPageState();
 }
 
+void addToCart(Product product) {
+}
+
 class _ViewProductPageState extends State<ViewProductPage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
@@ -85,7 +88,7 @@ class _ViewProductPageState extends State<ViewProductPage> {
             )
           ],
           title: Text(
-            'Headphones',
+            '${widget.product.category[0].toUpperCase()}${widget.product.category.substring(1)}',
             style: const TextStyle(
                 color: darkGrey,
                 fontWeight: FontWeight.w500,
@@ -101,6 +104,8 @@ class _ViewProductPageState extends State<ViewProductPage> {
                 ProductOption(
                   _scaffoldKey,
                   product: widget.product,
+                  onAddToCart: addToCart, // Pass the callback function
+                  selectedProducts: [],
                 ),
                 description,
                 Padding(
@@ -122,8 +127,6 @@ class _ViewProductPageState extends State<ViewProductPage> {
                           builder: (context) {
                             return RatingBottomSheet();
                           },
-                          //elevation: 0,
-                          //backgroundColor: Colors.transparent
                         );
                       },
                       constraints:
