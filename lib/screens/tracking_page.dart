@@ -47,77 +47,103 @@ class _TrackingPageState extends State<TrackingPage> {
         ),
         actions: <Widget>[],
       ),
-      body: Stack(
+      body: Column(
         children: <Widget>[
-          GoogleMap(
-            initialCameraPosition: CameraPosition(
-              target: LatLng(-6.165725, 106.791763), // Jakarta, Grogol near Tarumanagara University coordinates
-              zoom: 15.0, // You can adjust the initial zoom level
-            ),
-
-            markers: {
-              Marker(
-                markerId: MarkerId('tarumanagara_university'),
-                position: LatLng(-6.165725, 106.791763), // Tarumanagara University coordinates
-                infoWindow: InfoWindow(title: 'Tarumanagara University'),
-                icon: BitmapDescriptor.defaultMarker, // You can customize the icon if needed
+          Expanded(
+            child: GoogleMap(
+              initialCameraPosition: CameraPosition(
+                target: LatLng(-6.165725, 106.791763), // Tarumanagara University coordinates
+                zoom: 15.0, // You can adjust the initial zoom level
+              ),
+              markers: {
+                Marker(
+                  markerId: MarkerId('tarumanagara_university'),
+                  position: LatLng(-6.165725, 106.791763), // Tarumanagara University coordinates
+                  infoWindow: InfoWindow(title: 'Tarumanagara University'),
+                  icon: BitmapDescriptor.defaultMarker, // You can customize the icon if needed
                 ),
               },
-            onMapCreated: (GoogleMapController controller) {
-              setState(() {
-                mapController = controller;
-              });
-            },
+              onMapCreated: (GoogleMapController controller) {
+                setState(() {
+                  mapController = controller;
+                });
+              },
+            ),
           ),
-          Positioned(
-            top: 0,
-            left: 0,
-            right: 0,
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Container(
-                margin: const EdgeInsets.symmetric(horizontal: 16.0),
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.all(Radius.circular(8)),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.2),
-                      spreadRadius: 2,
-                      blurRadius: 5,
-                      offset: Offset(0, 2),
-                    ),
-                  ],
-                ),
-                child: DropdownButtonHideUnderline(
-                  child: DropdownButton<String>(
-                    items: uniqueProducts.map((product) =>
-                        DropdownMenuItem<String>(
-                          value: product.name,
-                          child: Text(
-                            product.name,
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                              fontSize: 16,
-                            ),
-                          ),
-                        )).toList(),
-                    onChanged: (newValue) {
-                      setState(() {
-                        selectedProduct = newValue!;
-                      });
-                    },
-                    value: selectedProduct,
-                    isExpanded: true,
-                    icon: Icon(Icons.keyboard_arrow_down),
-                    elevation: 0,
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 16,
-                    ),
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Container(
+              margin: const EdgeInsets.symmetric(horizontal: 16.0),
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.all(Radius.circular(8)),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.2),
+                    spreadRadius: 2,
+                    blurRadius: 5,
+                    offset: Offset(0, 2),
                   ),
+                ],
+              ),
+              child: DropdownButtonHideUnderline(
+                child: DropdownButton<String>(
+                  items: uniqueProducts.map((product) =>
+                      DropdownMenuItem<String>(
+                        value: product.name,
+                        child: Text(
+                          product.name,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            fontSize: 16,
+                          ),
+                        ),
+                      )).toList(),
+                  onChanged: (newValue) {
+                    setState(() {
+                      selectedProduct = newValue!;
+                    });
+                  },
+                  value: selectedProduct,
+                  isExpanded: true,
+                  icon: Icon(Icons.keyboard_arrow_down),
+                  elevation: 0,
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 16,
+                  ),
+                ),
+              ),
+            ),
+          ),
+          Container(
+            width: double.infinity,
+            padding: const EdgeInsets.all(16.0),
+            child: ElevatedButton(
+              onPressed: () {
+                // Navigate to MainPage using a MaterialPageRoute
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => MainPage(),
+                  ),
+                );
+              },
+              style: ElevatedButton.styleFrom(
+                padding: const EdgeInsets.all(16.0),
+                primary: Colors.orange,
+                onPrimary: Colors.white,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(9.0),
+                ),
+              ),
+              child: Text(
+                'Back to Main Page',
+                style: TextStyle(
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.w600,
                 ),
               ),
             ),
