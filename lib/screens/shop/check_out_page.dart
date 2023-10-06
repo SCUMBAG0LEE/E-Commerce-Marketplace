@@ -4,13 +4,12 @@ import 'package:bad_tech/models/product.dart';
 import 'package:bad_tech/screens/address/add_address_page.dart';
 import 'package:bad_tech/screens/payment/unpaid_page.dart';
 import 'package:flutter/material.dart';
-
+import 'package:provider/provider.dart'; // Import Provider package
+import 'package:bad_tech/models/cart_provider.dart'; // Import CartProvider
 import 'components/credit_card.dart';
 import 'components/shop_item_list.dart';
 
 class CheckOutPage extends StatefulWidget {
-  final List<Product> selectedProducts;
-  CheckOutPage({required this.selectedProducts});
   @override
   _CheckOutPageState createState() => _CheckOutPageState();
 }
@@ -20,6 +19,9 @@ class _CheckOutPageState extends State<CheckOutPage> {
 
   @override
   Widget build(BuildContext context) {
+    // Access the CartProvider
+    final cartProvider = Provider.of<CartProvider>(context);
+
     Widget checkOutButton = InkWell(
       onTap: () => Navigator.of(context)
           .push(MaterialPageRoute(builder: (_) => AddAddressPage())),
@@ -27,22 +29,24 @@ class _CheckOutPageState extends State<CheckOutPage> {
         height: 80,
         width: MediaQuery.of(context).size.width / 1.5,
         decoration: BoxDecoration(
-            gradient: mainButton,
-            boxShadow: [
-              BoxShadow(
-                color: Color.fromRGBO(0, 0, 0, 0.16),
-                offset: Offset(0, 5),
-                blurRadius: 10.0,
-              )
-            ],
-            borderRadius: BorderRadius.circular(9.0)),
+          gradient: mainButton,
+          boxShadow: [
+            BoxShadow(
+              color: Color.fromRGBO(0, 0, 0, 0.16),
+              offset: Offset(0, 5),
+              blurRadius: 10.0,
+            ),
+          ],
+          borderRadius: BorderRadius.circular(9.0),
+        ),
         child: Center(
           child: Text("Check Out",
               style: const TextStyle(
-                  color: const Color(0xfffefefe),
-                  fontWeight: FontWeight.w600,
-                  fontStyle: FontStyle.normal,
-                  fontSize: 20.0)),
+                color: const Color(0xfffefefe),
+                fontWeight: FontWeight.w600,
+                fontStyle: FontStyle.normal,
+                fontSize: 20.0,
+              )),
         ),
       ),
     );
@@ -58,9 +62,8 @@ class _CheckOutPageState extends State<CheckOutPage> {
             icon: Image.asset('assets/icons/denied_wallet.png'),
             onPressed: () => Navigator.of(context).push(
               MaterialPageRoute(
-                builder: (_) => UnpaidPage(
-                  selectedProducts: widget.selectedProducts,
-                ),
+                builder: (_) => UnpaidPage(selectedProducts: cartProvider.selectedProducts)
+
               ),
             ),
           ),
@@ -68,7 +71,10 @@ class _CheckOutPageState extends State<CheckOutPage> {
         title: Text(
           'Checkout',
           style: TextStyle(
-              color: darkGrey, fontWeight: FontWeight.w500, fontSize: 18.0),
+            color: darkGrey,
+            fontWeight: FontWeight.w500,
+            fontSize: 18.0,
+          ),
         ),
       ),
       body: LayoutBuilder(
@@ -89,16 +95,19 @@ class _CheckOutPageState extends State<CheckOutPage> {
                       Text(
                         'Subtotal',
                         style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16),
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                        ),
                       ),
                       Text(
-                        widget.selectedProducts.length.toString() + ' items',
+                        cartProvider.selectedProducts.length.toString() +
+                            ' items',
                         style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16),
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                        ),
                       ),
                     ],
                   ),
@@ -108,15 +117,14 @@ class _CheckOutPageState extends State<CheckOutPage> {
                   child: Scrollbar(
                     child: ListView.builder(
                       itemBuilder: (_, index) => ShopItemList(
-                        widget.selectedProducts[index],
+                        cartProvider.selectedProducts[index],
                         onRemove: () {
-                          setState(() {
-                            widget.selectedProducts
-                                .removeAt(index);
-                          });
+                          // Remove the product from the cart when the remove button is pressed
+                          cartProvider.removeFromCart(
+                              cartProvider.selectedProducts[index]);
                         },
                       ),
-                      itemCount: widget.selectedProducts.length,
+                      itemCount: cartProvider.selectedProducts.length,
                     ),
                   ),
                 ),
@@ -125,9 +133,10 @@ class _CheckOutPageState extends State<CheckOutPage> {
                   child: Text(
                     'Payment',
                     style: TextStyle(
-                        fontSize: 20,
-                        color: darkGrey,
-                        fontWeight: FontWeight.bold),
+                      fontSize: 20,
+                      color: darkGrey,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
                 SizedBox(
@@ -148,9 +157,10 @@ class _CheckOutPageState extends State<CheckOutPage> {
                 Center(
                   child: Padding(
                     padding: EdgeInsets.only(
-                        bottom: MediaQuery.of(context).padding.bottom == 0
-                            ? 20
-                            : MediaQuery.of(context).padding.bottom),
+                      bottom: MediaQuery.of(context).padding.bottom == 0
+                          ? 20
+                          : MediaQuery.of(context).padding.bottom,
+                    ),
                     child: checkOutButton,
                   ),
                 ),
