@@ -16,7 +16,7 @@ description: A Flutter project.
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
 # In Windows, build-name is used as the major, minor, and patch parts
 # of the product and file versions while build-number is used as the build suffix.
-version: 1.0.1
+version: 1.0.5
 
 environment:
   sdk: '>=2.19.6 <3.0.0'
@@ -30,7 +30,6 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-     google_maps_flutter: ^2.0.10
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -49,15 +48,14 @@ dependencies:
   build_runner: ^2.3.3
   json_serializable: ^6.6.2
   firebase_auth: ^4.10.0
+  path: ^1.8.2
+  provider: ^6.0.5
+  google_maps_flutter: ^2.3.0
+  mailer: ^6.0.1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  
-flutter_launcher_icons:
-  android: "launcher_icon"
-  ios: false
-  image_path: "assets/icons/shopeLogo.png"
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -65,6 +63,11 @@ flutter_launcher_icons:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: false
+  image_path: "assets/icons/shopeLogo.png"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -79,8 +82,8 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-  - assets/
-  - assets/icons/
+    - assets/
+    - assets/icons/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
@@ -94,12 +97,12 @@ flutter:
   # list giving the asset and other descriptors for the font. For
   # example:
   fonts:
-  - family: Montserrat
-    fonts:
-    - asset: fonts/Montserrat-Regular.ttf
-  - family: NunitoSans
-    fonts:
-    - asset: fonts/NunitoSans-Regular.ttf
+    - family: Montserrat
+      fonts:
+        - asset: fonts/Montserrat-Regular.ttf
+    - family: NunitoSans
+      fonts:
+        - asset: fonts/NunitoSans-Regular.ttf
   
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
