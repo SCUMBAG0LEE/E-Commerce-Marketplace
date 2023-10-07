@@ -14,3 +14,7 @@ A Flutter project.
 - [Flutter V3.7.12 With Dart 2.19.6](https://docs.flutter.dev/release/archive)
 - [JDK 18](https://www.oracle.com/java/technologies/javase/jdk18-archive-downloads.html)
 - Android API 28
+
+##Demo Video
+https://github.com/SCUMBAG0LEE/E-Commerce-Marketplace/assets/143576093/85f21e1f-bcbc-417c-a3d7-b5f72c0cf0f6
+
