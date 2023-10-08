@@ -1,13 +1,11 @@
 import 'package:bad_tech/app_properties.dart';
 import 'package:bad_tech/custom_background.dart';
 import 'package:bad_tech/screens/auth/welcome_back_page.dart';
-import 'package:bad_tech/screens/settings/change_country.dart';
-import 'package:bad_tech/screens/settings/change_password_page.dart';
-import 'package:bad_tech/screens/settings/legal_about_page.dart';
-import 'package:bad_tech/screens/settings/notifications_settings_page.dart';
+import 'package:bad_tech/screens/profile_page.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
-import 'change_language_page.dart';
+final _auth = FirebaseAuth.instance;
 
 class SettingsPage extends StatelessWidget {
   @override
@@ -48,30 +46,6 @@ class SettingsPage extends StatelessWidget {
                           fontSize: 18.0),
                     ),
                   ),
-                  ListTile(
-                    title: Text('Language A / का'),
-                    leading: Image.asset('assets/icons/language.png'),
-                    onTap: () => Navigator.of(context).push(
-                        MaterialPageRoute(builder: (_) => ChangeLanguagePage())),
-                  ),
-                   ListTile(
-                    title: Text('Change Country'),
-                     leading: Image.asset('assets/icons/country.png'),
-                    onTap: () => Navigator.of(context).push(
-                        MaterialPageRoute(builder: (_) => ChangeCountryPage())),
-                  ),
-                   ListTile(
-                    title: Text('Notifications'),
-                     leading: Image.asset('assets/icons/notifications.png'),
-                    onTap: () => Navigator.of(context).push(
-                        MaterialPageRoute(builder: (_) => NotificationSettingsPage())),
-                  ),
-                   ListTile(
-                    title: Text('Legal & About'),
-                     leading: Image.asset('assets/icons/legal.png'),
-                    onTap: () => Navigator.of(context).push(
-                        MaterialPageRoute(builder: (_) => LegalAboutPage())),
-                  ),
                    ListTile(
                     title: Text('About Us'),
                      leading: Image.asset('assets/icons/about_us.png'),
@@ -88,16 +62,13 @@ class SettingsPage extends StatelessWidget {
                     ),
                   ),
                   ListTile(
-                    title: Text('Change Password'),
-                    leading: Image.asset('assets/icons/change_pass.png'),
-                    onTap: () => Navigator.of(context).push(
-                        MaterialPageRoute(builder: (_) => ChangePasswordPage())),
-                  ),
-                  ListTile(
                     title: Text('Sign out'),
                       leading: Image.asset('assets/icons/sign_out.png'),
-                    onTap: () => Navigator.of(context).push(
-                        MaterialPageRoute(builder: (_) => WelcomeBackPage())),
+                    onTap: () {
+                      _auth.signOut();
+                      displayName = "Ligma Sukmadi";
+                      Navigator.of(context).push(MaterialPageRoute(builder: (_) => WelcomeBackPage()));
+                    }
                   ),
                   
                 ],
