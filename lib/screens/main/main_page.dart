@@ -13,7 +13,6 @@ import 'components/product_list.dart';
 import 'components/tab_view.dart';
 
 class MainPage extends StatefulWidget {
-  
   @override
   _MainPageState createState() => _MainPageState();
 }
@@ -185,7 +184,6 @@ class _MainPageState extends State<MainPage>
             ),
           ],
         ));
-        
 
     Widget tabBar = TabBar(
       tabs: [
@@ -241,7 +239,7 @@ class _MainPageState extends State<MainPage>
               ),
             ),
             CategoryListPage(),
-            CheckOutPage(selectedProducts: selectedProducts),
+            CheckOutPage(),
             ProfilePage()
           ],
         ),
