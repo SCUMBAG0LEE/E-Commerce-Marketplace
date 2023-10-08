@@ -8,7 +8,6 @@ class RatingBottomSheet extends StatefulWidget {
 }
 
 class _RatingBottomSheetState extends State<RatingBottomSheet> {
-  double rating = 0.0;
   List<int> ratings = [2, 1, 5, 2, 4, 3];
 
   @override
@@ -21,30 +20,6 @@ class _RatingBottomSheetState extends State<RatingBottomSheet> {
               topRight: Radius.circular(24), topLeft: Radius.circular(24))),
       child: ListView(
         children: <Widget>[
-          Column(
-            children: <Widget>[
-              Container(
-                padding: const EdgeInsets.all(8.0),
-                height: 92,
-                width: 92,
-                decoration: BoxDecoration(
-                    color: yellow,
-                    shape: BoxShape.circle,
-                    boxShadow: shadow,
-                    border: Border.all(width: 8.0, color: Colors.white)),
-                child: Image.asset('assets/headphones.png'),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                    horizontal: 72.0, vertical: 16.0),
-                child: Text(
-                  'Boat Rockerz 350 On-Ear Bluetooth Headphones',
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                  textAlign: TextAlign.center,
-                ),
-              )
-            ],
-          ),
           Divider(),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 40),
@@ -61,8 +36,6 @@ class _RatingBottomSheetState extends State<RatingBottomSheet> {
                 Column(
                   children: <Widget>[
                     RatingBar(
-//                      borderColor: Color(0xffFF8993),
-//                      fillColor: Color(0xffFF8993),
                       ignoreGestures: true,
                       itemSize: 20,
                       allowHalfRating: true,
@@ -80,14 +53,14 @@ class _RatingBottomSheetState extends State<RatingBottomSheet> {
                       ),
                       onRatingUpdate: (value) {
                         setState(() {
-                          rating = value;
+                          // You can update the rating as needed.
                         });
                         print(value);
                       },
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 4.0),
-                      child: Text('from 25 people'),
+                      child: Text('from ${ratings.length} people'),
                     )
                   ],
                 ),
@@ -129,20 +102,17 @@ class _RatingBottomSheetState extends State<RatingBottomSheet> {
                                       MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
                                     Text(
-                                      'Billy Holand',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold),
+                                      'User', // Replace with the user's name
+                                      style: TextStyle(fontWeight: FontWeight.bold),
                                     ),
                                     Text(
                                       '10 am, Via iOS',
-                                      style: TextStyle(
-                                          color: Colors.grey, fontSize: 10.0),
+                                      style: TextStyle(color: Colors.grey, fontSize: 10.0),
                                     )
                                   ],
                                 ),
                                 Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 8.0),
+                                  padding: const EdgeInsets.symmetric(vertical: 8.0),
                                   child: RatingBar(
                                     ignoreGestures: true,
                                     itemSize: 20,
@@ -162,14 +132,14 @@ class _RatingBottomSheetState extends State<RatingBottomSheet> {
                                     ),
                                     onRatingUpdate: (value) {
                                       setState(() {
-                                        rating = value;
+                                        // You can update the rating as needed.
                                       });
                                       print(value);
                                     },
                                   ),
                                 ),
                                 Text(
-                                  'Not as I expected! ... I`m really sad',
+                                  'Review Text', // Replace with the review text
                                   style: TextStyle(
                                     color: Colors.grey,
                                   ),
@@ -183,16 +153,15 @@ class _RatingBottomSheetState extends State<RatingBottomSheet> {
                                     children: <Widget>[
                                       Text(
                                         '21 likes',
-                                        style: TextStyle(
-                                            color: Colors.grey[400],
-                                            fontSize: 10.0),
+                                        style: TextStyle(color: Colors.grey[400], fontSize: 10.0),
                                       ),
                                       Text(
                                         '1 Comment',
                                         style: TextStyle(
-                                            color: Colors.blue,
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 10.0),
+                                          color: Colors.blue,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 10.0,
+                                        ),
                                       )
                                     ],
                                   ),
