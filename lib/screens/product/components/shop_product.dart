@@ -54,40 +54,39 @@ class ShopProductDisplay extends StatelessWidget {
     return SizedBox(
       height: 150,
       width: 200,
-      child: Stack(children: <Widget>[
-        Positioned(
-          left: 25,
-          child: SizedBox(
-            height: 150,
-            width: 150,
-            child: Transform.scale(
-              scale: 1.2,
+      child: Stack(
+        children: <Widget>[
+          Positioned(
+            left: 0, // Adjust the left position to align with the left edge
+            child: SizedBox(
+              height: 150,
+              width: 200, // Set the width to match the outer container
               child: Image.asset('assets/bottom_yellow.png'),
             ),
           ),
-        ),
-        Positioned(
-          left: 50,
-          top: 5,
-          child: SizedBox(
-              height: 80,
-              width: 80,
+          Center(
+            child: SizedBox(
+              height: 150, 
+              width: 150, 
               child: Image.asset(
                 '${product.image}',
                 fit: BoxFit.contain,
-              )),
-        ),
-        Positioned(
-          right: 30,
-          bottom: 25,
-          child: Align(
-            child: IconButton(
-              icon: Image.asset('assets/red_clear.png'),
-              onPressed: onPressed,
+              ),
             ),
           ),
-        )
-      ]),
+          Positioned(
+            right: 30,
+            bottom: 25,
+            child: Align(
+              child: IconButton(
+                icon: Image.asset('assets/red_clear.png'),
+                onPressed: onPressed,
+              ),
+            ),
+          )
+        ],
+      ),
     );
   }
 }
+
