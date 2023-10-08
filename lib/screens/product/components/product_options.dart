@@ -5,14 +5,24 @@ import 'package:flutter/material.dart';
 
 import 'shop_bottomSheet.dart';
 
-class ProductOption extends StatelessWidget {
+class ProductOption extends StatefulWidget {
   final GlobalKey<ScaffoldState> scaffoldKey;
   final Product product;
+  final Function(Product) onAddToCart;
+  final List<Product> selectedProducts;
+
   const ProductOption(
     this.scaffoldKey, {
     required this.product,
+    required this.onAddToCart,
+    required this.selectedProducts,
   });
 
+  @override
+  _ProductOptionState createState() => _ProductOptionState();
+}
+
+class _ProductOptionState extends State<ProductOption> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -22,7 +32,7 @@ class ProductOption extends StatelessWidget {
           Positioned(
             left: 16.0,
             child: Image.asset(
-              product.image,
+              widget.product.image,
               height: 200,
               width: 200,
             ),
@@ -38,26 +48,48 @@ class ProductOption extends StatelessWidget {
                 children: <Widget>[
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                    child: Text(product.name,
-                        textAlign: TextAlign.right,
-                        style: TextStyle(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Text(
+                          widget.product.name,
+                          textAlign: TextAlign.right,
+                          style: TextStyle(
                             fontWeight: FontWeight.bold,
                             color: Colors.white,
-                            shadows: shadow)),
+                            shadows: shadow,
+                          ),
+                        ),
+                        SizedBox(height: 8.0),
+                        Text(
+                          '\$${widget.product.price.toStringAsFixed(2)}',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 16.0,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                   InkWell(
                     onTap: () async {
                       Navigator.of(context).push(
-                          MaterialPageRoute(builder: (_) => CheckOutPage()));
+                        MaterialPageRoute(
+                          builder: (_) => CheckOutPage(),
+                        ),
+                      );
                     },
                     child: Container(
                       width: MediaQuery.of(context).size.width / 2.5,
                       decoration: BoxDecoration(
-                          color: Colors.red,
-                          gradient: mainButton,
-                          borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(10.0),
-                              bottomLeft: Radius.circular(10.0))),
+                        color: Colors.red,
+                        gradient: mainButton,
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(10.0),
+                          bottomLeft: Radius.circular(10.0),
+                        ),
+                      ),
                       padding: EdgeInsets.symmetric(vertical: 16.0),
                       child: Center(
                         child: Text(
@@ -72,18 +104,29 @@ class ProductOption extends StatelessWidget {
                   ),
                   InkWell(
                     onTap: () {
-                      scaffoldKey.currentState!.showBottomSheet((context) {
-                        return ShopBottomSheet();
+                      widget.selectedProducts.add(widget.product);
+                      widget.scaffoldKey.currentState!.showBottomSheet((context) {
+                        return ShopBottomSheet(
+                          selectedProducts: widget.selectedProducts,
+                          onProductRemoved: (Product removedProduct) {
+                            // Remove the product from the selectedProducts list
+                            setState(() {
+                              widget.selectedProducts.remove(removedProduct);
+                            });
+                          },
+                        );
                       });
                     },
                     child: Container(
                       width: MediaQuery.of(context).size.width / 2.5,
                       decoration: BoxDecoration(
-                          color: Colors.red,
-                          gradient: mainButton,
-                          borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(10.0),
-                              bottomLeft: Radius.circular(10.0))),
+                        color: Colors.red,
+                        gradient: mainButton,
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(10.0),
+                          bottomLeft: Radius.circular(10.0),
+                        ),
+                      ),
                       padding: EdgeInsets.symmetric(vertical: 16.0),
                       child: Center(
                         child: Text(
